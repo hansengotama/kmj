@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class VueController extends Controller
 {
-    public function loginView() {
+    public function view() {
         return view("index");
     }
 }

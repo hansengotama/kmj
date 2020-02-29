@@ -1,44 +1,17 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[5],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[8],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/user/add.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/page/admin/user/add.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _helper_validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helper/validator */ "./resources/helper/validator.js");
-/* harmony import */ var _helper_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helper/alert */ "./resources/helper/alert.js");
-/* harmony import */ var _helper_request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../helper/request */ "./resources/helper/request.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _helper_validator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../helper/validator */ "./resources/helper/validator.js");
+/* harmony import */ var _helper_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../helper/alert */ "./resources/helper/alert.js");
+/* harmony import */ var _helper_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../helper/request */ "./resources/helper/request.js");
 //
 //
 //
@@ -101,38 +74,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       error: {
         "class": {
           name: "",
-          email: "",
-          role: "",
-          phone_number: "",
-          npwp: ""
+          limit: "",
+          is_active: ""
         },
         message: {
           name: "",
-          email: "",
-          role: "",
-          phone_number: "",
-          npwp: ""
+          limit: "",
+          is_active: ""
         }
       },
       form: {
+        id: "",
         name: "",
-        email: "",
-        role: "user",
-        phone_number: "",
-        npwp: ""
+        limit: "",
+        is_active: true
       }
     };
   },
+  mounted: function mounted() {
+    this.initData();
+  },
   methods: {
+    initData: function initData() {
+      var data = this.$route.params;
+
+      if (data.id == null) {
+        this.back();
+        return false;
+      }
+
+      this.form.id = data.id;
+      this.form.name = data.name;
+      this.form.limit = data.limit;
+      this.form.is_active = data.is_active ? true : false;
+    },
     back: function back() {
       this.$router.push({
-        name: "User"
+        name: "Vihara"
       });
     },
     validateName: function validateName() {
       var success = true;
 
-      if (_helper_validator__WEBPACK_IMPORTED_MODULE_1__["default"].required(this.form.name)) {
+      if (_helper_validator__WEBPACK_IMPORTED_MODULE_0__["default"].required(this.form.name)) {
         success = false;
         this.error["class"].name = "error-input";
         this.error.message.name = "Nama harus diisi";
@@ -143,212 +127,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return success;
     },
-    validateEmail: function validateEmail() {
-      var _this = this;
-
-      return _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var success;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                success = true;
-
-                if (!_helper_validator__WEBPACK_IMPORTED_MODULE_1__["default"].required(_this.form.email)) {
-                  _context.next = 7;
-                  break;
-                }
-
-                success = false;
-                _this.error["class"].email = "error-input";
-                _this.error.message.email = "Email harus diisi";
-                _context.next = 24;
-                break;
-
-              case 7:
-                if (!_helper_validator__WEBPACK_IMPORTED_MODULE_1__["default"].emailFormat(_this.form.email)) {
-                  _context.next = 13;
-                  break;
-                }
-
-                success = false;
-                _this.error["class"].email = "error-input";
-                _this.error.message.email = "Email harus sesuai format";
-                _context.next = 24;
-                break;
-
-              case 13:
-                _context.next = 15;
-                return _this.checkUserEmail();
-
-              case 15:
-                _context.t0 = _context.sent;
-
-                if (!(_context.t0 == 1)) {
-                  _context.next = 22;
-                  break;
-                }
-
-                success = false;
-                _this.error["class"].email = "error-input";
-                _this.error.message.email = "Email tidak bisa dipakai";
-                _context.next = 24;
-                break;
-
-              case 22:
-                _this.error["class"].email = "";
-                _this.error.message.email = "";
-
-              case 24:
-                return _context.abrupt("return", success);
-
-              case 25:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    checkUserEmail: function checkUserEmail() {
-      var data = {};
-      data.email = this.form.email;
-      return _helper_request__WEBPACK_IMPORTED_MODULE_3__["default"].post('/api/user/check', data).then(function (response) {
-        return response.data;
-      });
-    },
-    checkUserPhoneNumber: function checkUserPhoneNumber() {
-      var data = {};
-      data.phone_number = this.form.phone_number;
-      return _helper_request__WEBPACK_IMPORTED_MODULE_3__["default"].post('/api/user/check', data).then(function (response) {
-        return response.data;
-      });
-    },
-    validateRole: function validateRole() {
+    validateLimit: function validateLimit() {
       var success = true;
 
-      if (_helper_validator__WEBPACK_IMPORTED_MODULE_1__["default"].required(this.form.role)) {
+      if (_helper_validator__WEBPACK_IMPORTED_MODULE_0__["default"].required(this.form.limit)) {
         success = false;
-        this.error["class"].role = "error-input";
-        this.error.message.role = "Peran harus diisi";
+        this.error["class"].limit = "error-input";
+        this.error.message.limit = "Limit Donasi harus diisi";
       } else {
-        this.error["class"].role = "";
-        this.error.message.role = "";
+        this.error["class"].limit = "";
+        this.error.message.limit = "";
       }
 
       return success;
     },
-    validatePhoneNumber: function validatePhoneNumber() {
-      var _this2 = this;
+    edit: function edit() {
+      var _this = this;
 
-      return _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var success;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                success = true;
+      var validateSuccess = true;
+      if (!this.validateName()) validateSuccess = false;
+      if (!this.validateLimit()) validateSuccess = false;
 
-                if (!_helper_validator__WEBPACK_IMPORTED_MODULE_1__["default"].required(_this2.form.phone_number)) {
-                  _context2.next = 7;
-                  break;
-                }
+      if (validateSuccess) {
+        _helper_alert__WEBPACK_IMPORTED_MODULE_1__["default"].loading();
+        _helper_request__WEBPACK_IMPORTED_MODULE_2__["default"].post("/api/vihara/update", this.form).then(function (response) {
+          _this.resetForm();
 
-                success = false;
-                _this2.error["class"].phone_number = "error-input";
-                _this2.error.message.phone_number = "Nomor telepon harus diisi";
-                _context2.next = 18;
-                break;
+          _helper_alert__WEBPACK_IMPORTED_MODULE_1__["default"].success();
 
-              case 7:
-                _context2.next = 9;
-                return _this2.checkUserPhoneNumber();
-
-              case 9:
-                _context2.t0 = _context2.sent;
-
-                if (!(_context2.t0 == 1)) {
-                  _context2.next = 16;
-                  break;
-                }
-
-                success = false;
-                _this2.error["class"].phone_number = "error-input";
-                _this2.error.message.phone_number = "Nomor telepon tidak bisa dipakai";
-                _context2.next = 18;
-                break;
-
-              case 16:
-                _this2.error["class"].phone_number = "";
-                _this2.error.message.phone_number = "";
-
-              case 18:
-                return _context2.abrupt("return", success);
-
-              case 19:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    add: function add() {
-      var _this3 = this;
-
-      return _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var validateSuccess, validatePhoneNumber, validateEmail;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                validateSuccess = true;
-                _context3.next = 3;
-                return _this3.validatePhoneNumber();
-
-              case 3:
-                validatePhoneNumber = _context3.sent;
-                _context3.next = 6;
-                return _this3.validateEmail();
-
-              case 6:
-                validateEmail = _context3.sent;
-                if (!_this3.validateName()) validateSuccess = false;
-                if (!validateEmail) validateSuccess = false;
-                if (!_this3.validateRole()) validateSuccess = false;
-                if (!validatePhoneNumber) validateSuccess = false;
-
-                if (validateSuccess) {
-                  _helper_alert__WEBPACK_IMPORTED_MODULE_2__["default"].loading();
-                  _helper_request__WEBPACK_IMPORTED_MODULE_3__["default"].post("/api/user/create", _this3.form).then(function (response) {
-                    _this3.resetForm();
-
-                    _helper_alert__WEBPACK_IMPORTED_MODULE_2__["default"].success();
-                  })["catch"](function (error) {
-                    _helper_alert__WEBPACK_IMPORTED_MODULE_2__["default"].error();
-                  });
-                }
-
-              case 12:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
+          _this.back();
+        })["catch"](function (error) {
+          _helper_alert__WEBPACK_IMPORTED_MODULE_1__["default"].error();
+        });
+      }
     },
     resetForm: function resetForm() {
       this.form.name = "";
-      this.form.email = "";
-      this.form.role = "user";
-      this.form.phone_number = "";
-      this.form.npwp = "";
+      this.form.limit = "";
+      this.form.is_active = true;
     }
   }
 });
@@ -641,10 +457,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true&":
-/*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true& ***!
-  \**************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -709,41 +525,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "error-text" }, [
-                _vm._v(_vm._s(_vm.error.message.name))
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-custom-container" }, [
-            _c("div", { staticClass: "form-custom-title" }, [
-              _vm._v("\n                        Email\n                    ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-custom-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.email,
-                    expression: "form.email"
-                  }
-                ],
-                class: _vm.error.class.email,
-                attrs: { type: "text", placeholder: "Email" },
-                domProps: { value: _vm.form.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "email", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "error-text" }, [
-                _vm._v(_vm._s(_vm.error.message.email))
+                _vm._v(_vm._s(_vm.error.message.name) + " ")
               ])
             ])
           ]),
@@ -751,7 +533,7 @@ var render = function() {
           _c("div", { staticClass: "form-custom-container" }, [
             _c("div", { staticClass: "form-custom-title" }, [
               _vm._v(
-                "\n                        Nomor Telepon\n                    "
+                "\n                        Limit Donasi\n                    "
               )
             ]),
             _vm._v(" "),
@@ -761,66 +543,32 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.form.phone_number,
-                    expression: "form.phone_number"
+                    value: _vm.form.limit,
+                    expression: "form.limit"
                   }
                 ],
-                class: _vm.error.class.phone_number,
-                attrs: { type: "text", placeholder: "Nomor Telepon" },
-                domProps: { value: _vm.form.phone_number },
+                class: _vm.error.class.limit,
+                attrs: { type: "text", placeholder: "Limit" },
+                domProps: { value: _vm.form.limit },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.form, "phone_number", $event.target.value)
+                    _vm.$set(_vm.form, "limit", $event.target.value)
                   }
                 }
               }),
               _vm._v(" "),
               _c("div", { staticClass: "error-text" }, [
-                _vm._v(_vm._s(_vm.error.message.phone_number))
+                _vm._v(_vm._s(_vm.error.message.limit) + " ")
               ])
             ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-custom-container" }, [
             _c("div", { staticClass: "form-custom-title" }, [
-              _vm._v("\n                        NPWP\n                    ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-custom-input" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.npwp,
-                    expression: "form.npwp"
-                  }
-                ],
-                class: _vm.error.class.npwp,
-                attrs: { type: "text", placeholder: "npwp" },
-                domProps: { value: _vm.form.npwp },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "npwp", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "error-text" }, [
-                _vm._v(_vm._s(_vm.error.message.npwp))
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-custom-container" }, [
-            _c("div", { staticClass: "form-custom-title" }, [
-              _vm._v("\n                        Peran\n                    ")
+              _vm._v("\n                        Aktif\n                    ")
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-custom-input" }, [
@@ -831,11 +579,10 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.form.role,
-                      expression: "form.role"
+                      value: _vm.form.is_active,
+                      expression: "form.is_active"
                     }
                   ],
-                  class: _vm.error.class.role,
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -848,7 +595,7 @@ var render = function() {
                         })
                       _vm.$set(
                         _vm.form,
-                        "role",
+                        "is_active",
                         $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
@@ -857,22 +604,18 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { attrs: { value: "user" } }, [
-                    _vm._v("Donatur")
+                  _c("option", { domProps: { value: true } }, [
+                    _vm._v("Aktif")
                   ]),
                   _vm._v(" "),
-                  _c("option", { attrs: { value: "admin" } }, [
-                    _vm._v("Admin")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "cashier" } }, [
-                    _vm._v("Kasir")
+                  _c("option", { domProps: { value: false } }, [
+                    _vm._v("Tidak Aktif")
                   ])
                 ]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "error-text" }, [
-                _vm._v(_vm._s(_vm.error.message.role))
+                _vm._v(_vm._s(_vm.error.message.is_active) + " ")
               ])
             ])
           ]),
@@ -883,11 +626,11 @@ var render = function() {
               {
                 on: {
                   click: function($event) {
-                    return _vm.add()
+                    return _vm.edit()
                   }
                 }
               },
-              [_vm._v("Tambah")]
+              [_vm._v("Ganti")]
             )
           ])
         ])
@@ -901,9 +644,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "table-title" }, [
-      _c("div", { staticStyle: { padding: "15px" } }, [
-        _vm._v("Tambah Pengguna")
-      ]),
+      _c("div", { staticStyle: { padding: "15px" } }, [_vm._v("Ubah Vihara")]),
       _vm._v(" "),
       _c(
         "div",
@@ -914,7 +655,7 @@ var staticRenderFns = [
             padding: "0 15px 15px 15px"
           }
         },
-        [_vm._v("Pengguna aplikasi donasi ini")]
+        [_vm._v("Vihara lombok yang akan dibantu")]
       )
     ])
   }
@@ -1069,17 +810,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/views/page/admin/user/add.vue":
-/*!*************************************************!*\
-  !*** ./resources/views/page/admin/user/add.vue ***!
-  \*************************************************/
+/***/ "./resources/views/page/admin/vihara/edit.vue":
+/*!****************************************************!*\
+  !*** ./resources/views/page/admin/vihara/edit.vue ***!
+  \****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./add.vue?vue&type=template&id=40cb1ef4&scoped=true& */ "./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true&");
-/* harmony import */ var _add_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./add.vue?vue&type=script&lang=js& */ "./resources/views/page/admin/user/add.vue?vue&type=script&lang=js&");
+/* harmony import */ var _edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit.vue?vue&type=template&id=b5ba4b92&scoped=true& */ "./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true&");
+/* harmony import */ var _edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit.vue?vue&type=script&lang=js& */ "./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -1089,50 +830,50 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _add_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "40cb1ef4",
+  "b5ba4b92",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/views/page/admin/user/add.vue"
+component.options.__file = "resources/views/page/admin/vihara/edit.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/views/page/admin/user/add.vue?vue&type=script&lang=js&":
-/*!**************************************************************************!*\
-  !*** ./resources/views/page/admin/user/add.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************/
+/***/ "./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_add_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./add.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/user/add.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_add_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./edit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/vihara/edit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true&":
-/*!********************************************************************************************!*\
-  !*** ./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true& ***!
-  \********************************************************************************************/
+/***/ "./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true& ***!
+  \***********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./add.vue?vue&type=template&id=40cb1ef4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/user/add.vue?vue&type=template&id=40cb1ef4&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./edit.vue?vue&type=template&id=b5ba4b92&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/page/admin/vihara/edit.vue?vue&type=template&id=b5ba4b92&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_add_vue_vue_type_template_id_40cb1ef4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_b5ba4b92_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

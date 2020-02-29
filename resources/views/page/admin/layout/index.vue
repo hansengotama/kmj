@@ -5,24 +5,24 @@
                 <div class="menu">
                     <div class="title">
                         <div style="padding: 8px; background: white; border-radius: 100%">
-                            <img src="https://s3.amazonaws.com/creativetim_bucket/new_logo.png" alt="" width="25px" height="25px">
+                            <img :src="'/image/user_logo.png'" alt="" width="25px" height="25px">
                         </div>
                         <span style="margin-left: 10px;">ADMIN</span>
                     </div>
                     <hr width="210px" align="left" style="margin-bottom: 20px; border: 0; border-top: 1px solid #eaeaea; height: 1px">
                     <router-link to="user">
                         <div class="menu-text">
-                            User
+                            Pengguna
                         </div>
                     </router-link>
                     <router-link to="transaction">
                         <div class="menu-text">
-                            Transaction
+                            Transaksi
                         </div>
                     </router-link>
-                    <router-link to="transaction-type">
+                    <router-link to="payment-type">
                         <div class="menu-text">
-                            Transaction Type
+                            Tipe Pembayaran
                         </div>
                     </router-link>
                     <router-link to="vihara">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="logout">
                     <div class="menu-text">
-                        Logout
+                        Keluar
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
 
     .sidebar
         width 260px
-        background-image linear-gradient( rgba(0, 0, 0, 0.5), rgba(27,27,27,.87) ), url("https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg")
+        background-image linear-gradient( rgba(0, 0, 0, 0.5), rgba(27,27,27,.87) ), url("/image/sidebar-bg.jpg")
         box-shadow 0 10px 30px -12px rgba(0,0,0,.42), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2)
         background-size cover
         background-position 50%

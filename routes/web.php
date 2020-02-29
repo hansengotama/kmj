@@ -11,10 +11,23 @@
 |
 */
 
-Route::get('/login', 'VueController@loginView');
-Route::get('/admin/user', 'VueController@loginView');
-Route::get('/admin/transaction', 'VueController@loginView');
-Route::get('/admin/transaction-type', 'VueController@loginView');
-Route::get('/admin/vihara', 'VueController@loginView');
+Route::get('/login', 'VueController@view');
 
+Route::get('/admin/user', 'VueController@view');
+Route::get('/admin/add-user', 'VueController@view');
+Route::get('/admin/edit-user', 'VueController@view');
 
+Route::get('/admin/transaction', 'VueController@view');
+
+Route::get('/admin/vihara', 'VueController@view');
+Route::get('/admin/add-vihara', 'VueController@view');
+Route::get('/admin/edit-vihara', 'VueController@view');
+
+Route::get('/admin/payment-type', 'VueController@view');
+Route::get('/admin/add-payment-type', 'VueController@view');
+Route::get('/admin/edit-payment-type', 'VueController@view');
+
+Route::get('/', 'VueController@view');
+Route::get('/donation-form', 'VueController@view');
+Route::get('/vihara-form', 'VueController@view');
+Route::get('/verification-form', 'VueController@view');

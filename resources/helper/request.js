@@ -23,13 +23,11 @@ export default {
 
     post(url, data) {
         return new Promise((resolve) => {
-            let headers = {}
-
-                headers = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
+            let headers = {
+                headers: {
+                    'Content-Type': 'application/json',
                 }
+            }
 
             axios.post(this.getBaseUrl() + url, data, headers)
             .then((response) => {

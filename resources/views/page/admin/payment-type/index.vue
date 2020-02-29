@@ -1,12 +1,12 @@
 <template>
     <div>
         <div style="color: #555; font-weight: lighter">
-            Kelola Vihara
+            Kelola Tipe Transaksi
         </div>
         <div style="padding-top: 3em; position: relative">
             <div class="table-title">
-                <div style="padding: 15px;">Data Vihara</div>
-                <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Vihara lombok yang akan dibantu</div>
+                <div style="padding: 15px;">Data Tipe Transaksi</div>
+                <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Tipe Transaksi yang digunakan untuk pembayaran</div>
             </div>
             <div class="content-container">
                 <div class="content-place">
@@ -16,7 +16,7 @@
 <!--                            <i class="fa fa-search"></i>-->
 <!--                        </div>-->
                         <div class="add-button">
-                            <button @click="addVihara()">Tambah Vihara</button>
+                            <button @click="addTransactionType()">Tambah Tipe Transaksi</button>
                         </div>
                     </div>
                     <div class="table-container">
@@ -24,25 +24,18 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
-                                <th>Limit Donasi</th>
-                                <th>Aktif</th>
                                 <th>Aksi</th>
                             </tr>
-                            <tr v-if="vihara.data.length <= 0">
-                                <td colspan="5" style="text-align: center">Data Kosong</td>
+                            <tr v-if="transactionType.data.length <= 0">
+                                <td colspan="3" style="text-align: center">Data Kosong</td>
                             </tr>
-                            <tr v-for="(vihara, index) in vihara.data" v-else>
+                            <tr v-for="(transactionType, index) in transactionType.data" v-else>
                                 <td>{{ index+1 }}</td>
-                                <td>{{ vihara.name }}</td>
-                                <td>{{ vihara.limit }}</td>
-                                <td>
-                                    <i class="fa fa-check" style="color: green" v-if="vihara.is_active"></i>
-                                    <i class="fa fa-times" style="color: red" v-else></i>
-                                </td>
+                                <td>{{ transactionType.name }}</td>
                                 <td>
                                     <span>
-                                        <i class="fa fa-edit" @click="editVihara(vihara)"></i>
-                                        <i class="fa fa-trash" @click="deleteVihara(vihara.id)"></i>
+                                        <i class="fa fa-edit" @click="editTransactionType(transactionType)"></i>
+                                        <i class="fa fa-trash" @click="deleteTransactionType(transactionType.id)"></i>
                                     </span>
                                 </td>
                             </tr>
@@ -61,38 +54,38 @@
     export default {
         data() {
             return {
-                vihara: {
+                transactionType: {
                     data: []
                 }
             }
         },
         mounted() {
-            this.getVihara()
+            this.getTransactionType()
         },
         methods: {
-            getVihara() {
-                request.get("/api/vihara")
+            getTransactionType() {
+                request.get("/api/payment-type")
                 .then((response) => {
-                    this.vihara = response.data
+                    this.transactionType = response.data
                 })
             },
-            addVihara() {
+            addTransactionType() {
                 this.$router.push({
-                    name: "Add Vihara"
+                    name: "Add Payment Type"
                 })
             },
-            editVihara(data) {
+            editTransactionType(data) {
                 this.$router.push({
-                    name: "Edit Vihara",
+                    name: "Edit Payment Type",
                     params: data
                 })
             },
-            deleteVihara(id) {
+            deleteTransactionType(id) {
                 alert.loading()
 
-                request.get("/api/vihara/delete/"+id)
+                request.get("/api/payment-type/delete/"+id)
                 .then((response) => {
-                    this.getVihara()
+                    this.getTransactionType()
                     alert.success()
                 })
                 .catch((error) => {

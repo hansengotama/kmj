@@ -12,11 +12,11 @@
                 <div class="content-place">
                     <div class="additional-container">
                         <div class="search-bar">
-                            <input type="text" placeholder="Cari berdasarkan nama..">
-                            <i class="fa fa-search"></i>
+                            <input type="text" placeholder="Cari berdasarkan nama.." v-model="filter.text" @keyup.enter="getUser()">
+                            <i class="fa fa-search" @click="getUser()"></i>
                         </div>
                         <div class="add-button">
-                            <button>Tambah Pengguna</button>
+                            <button @click="addUser">Tambah Pengguna</button>
                         </div>
                     </div>
                     <div class="table-container">
@@ -28,14 +28,27 @@
                                 <th>Peran</th>
                                 <th>Nomor Telepon</th>
                                 <th>NPWP</th>
+                                <th>Aksi</th>
                             </tr>
-                            <tr v-for="a in 10">
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                            <tr v-if="user.data.length <= 0">
+                                <td colspan="7" style="text-align: center">Data Kosong</td>
+                            </tr>
+                            <tr v-for="(data, index) in user.data" v-else>
+                                <td>{{ index+1 }}</td>
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.email }}</td>
+                                <td>
+                                    <span v-if="data.role == 'cashier'">Kasir</span>
+                                    <span v-if="data.role == 'user'">Donatur</span>
+                                </td>
+                                <td>{{ data.phone_number }}</td>
+                                <td>{{ data.npwp }}</td>
+                                <td>
+                                    <span>
+                                        <i class="fa fa-edit" @click="editUser(data)"></i>
+                                        <i class="fa fa-trash" @click="deleteUser(data.id)"></i>
+                                    </span>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -46,89 +59,57 @@
 </template>
 
 <script>
-    export default {
+    import request from "../../../../helper/request";
+    import alert from "../../../../helper/alert";
 
+    export default {
+        data() {
+            return {
+                user: {
+                    data: []
+                },
+                filter: {
+                    text: ""
+                }
+            }
+        },
+        mounted() {
+            this.getUser()
+        },
+        methods: {
+            getUser() {
+                request.get("/api/user?filter[name]=" + this.filter.text)
+                .then((response) => {
+                    this.user = response.data
+                })
+            },
+            addUser() {
+                this.$router.push({
+                    name: "Add User"
+                })
+            },
+            editUser(data) {
+                this.$router.push({
+                    name: "Edit User",
+                    params: data
+                })
+            },
+            deleteUser(id) {
+                alert.loading()
+
+                request.get("/api/user/delete/"+id)
+                .then((response) => {
+                    this.getUser()
+                    alert.success()
+                })
+                .catch((error) => {
+                    alert.error()
+                })
+            },
+        }
     }
 </script>
 
 <style lang="stylus" scoped>
-    .table-title
-        background rgb(62, 149, 169)
-        width 98%
-        color white
-        top 30px
-        font-weight lighter
-        position absolute
-        left 1%
-        right 1%
-        border-radius 3px
-        box-shadow 0 12px 20px -10px rgba(62, 149, 169, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(62, 149, 169, .2)
-
-    .content-container
-        width 100%
-        background white
-        box-shadow 0 1px 4px 0 rgba(0,0,0,.14)
-        padding-top 80px
-
-    .content-place
-        padding-left 1%
-        padding-right 1%
-
-    .additional-container
-        display flex
-        justify-content space-between
-        align-items center
-
-    .add-button > button
-        padding 8px 14px
-        color white
-        background rgb(62, 149, 169)
-        border-radius 4px
-        box-shadow 0 12px 20px -10px rgba(62, 149, 169, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(62, 149, 169, .2)
-        cursor pointer
-
-    .search-bar
-        display flex
-
-    .search-bar > input
-        padding 8px 14px
-        border-radius 4px
-        border 1px solid #eaeaea
-        border-bottom-right-radius 0
-        border-top-right-radius 0
-        border-right none
-        width 150px
-
-    .search-bar > i
-        padding 6px
-        border 1px solid #eaeaea
-        border-left none
-        border-radius 4px
-        border-top-left-radius 0
-        border-bottom-left-radius 0
-
-    .table-container
-        margin-top 20px
-        font-weight lighter !important
-        width 100%
-
-    .table-container > table
-        width 100%
-        padding-bottom 20px
-
-    table > tr > th,
-    table > tr > td
-        font-weight lighter !important
-
-    table > tr > th
-        color rgb(62, 149, 169)
-        text-align left
-        padding-bottom 10px
-
-    table > tr > td
-        padding-top 12px
-        padding-bottom 12px
-        border-top 1px solid #eaeaea
-        font-size 14px
 
 </style>
