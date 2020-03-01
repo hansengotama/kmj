@@ -76,6 +76,7 @@
     import request from "../../../../helper/request";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 error: {
@@ -169,7 +170,7 @@
                 data.id = this.form.id
                 data.email = this.form.email
 
-                return request.post('/api/user/check', data)
+                return request.post('/api/user/check', data, this.accessToken)
                 .then((response) => {
                     return response.data
                 })
@@ -179,7 +180,7 @@
                 data.id = this.form.id
                 data.phone_number = this.form.phone_number
 
-                return request.post('/api/user/check', data)
+                return request.post('/api/user/check', data, this.accessToken)
                 .then((response) => {
                     return response.data
                 })
@@ -225,11 +226,11 @@
                 if(!validateEmail) validateSuccess = false
                 if(!this.validateRole()) validateSuccess = false
                 if(!validatePhoneNumber) validateSuccess = false
-                console.log(validateSuccess)
+
                 if(validateSuccess) {
                     alert.loading()
 
-                    request.post("/api/user/update", this.form)
+                    request.post("/api/user/update", this.form, this.accessToken)
                     .then((response) => {
                         this.resetForm()
                         alert.success()

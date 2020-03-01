@@ -122,7 +122,8 @@ class AdminController extends Controller
     {
         $paymentType = PaymentType::find($request['id']);
         $paymentType->update([
-            'name' => $request['name']
+            'name' => $request['name'],
+            'is_installment' => $request['is_installment']
         ]);
 
         return 1;
@@ -131,7 +132,8 @@ class AdminController extends Controller
     public function addPaymentType(Request $request)
     {
         return PaymentType::create([
-            "name" => $request['name']
+            "name" => $request['name'],
+            "is_installment" => $request['is_installment']
         ]);
     }
 

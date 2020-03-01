@@ -7,13 +7,16 @@
                     <input type="text" placeholder="Email Address" v-model="email">
                 </div>
                 <div class="input-password">
-                    <input type="password" placeholder="Password" v-model="password">
+                    <input type="text" placeholder="Nomor Hp" v-model="password" @keyup.enter="validate()">
                 </div>
                 <div class="button-container">
-                    <button @click="login">SUBMIT</button>
+                    <button @click="validate()">SUBMIT</button>
                 </div>
                 <div style="text-align: center; color: red;">
                     {{ error.text }}
+                </div>
+                <div style="margin-top: 20px; text-align: center">
+                    Atau belum punya akun? <span @click="register()" style="color: blue; cursor: pointer"><u>Daftar Sekarang</u></span>
                 </div>
             </div>
         </div>
@@ -22,8 +25,11 @@
 
 <script>
     import request from "../../../helper/request"
+    import validator from "../../../helper/validator";
+    import VueCookies from "vue-cookies";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 email: "",
@@ -31,7 +37,15 @@
                 error: {
                     text: ""
                 },
-                token: ""
+            }
+        },
+        mounted() {
+
+
+            if(this.accessToken != null) {
+                this.$router.push({
+                    name: "User Home"
+                })
             }
         },
         methods: {
@@ -41,30 +55,56 @@
                     password: this.password
                 })
                 .then((response) => {
-                    if (response.status == 200)
-                        this.token = response.data.success.token
-                    else {
-                        this.error.text = "Mohon cek kembali password dan email anda"
+                    if (response.status == 200) {
+                        VueCookies.set('usertoken', response.data.success.token)
+                        this.$emit('getAccessToken')
+                        let role = response.data.success.role
+
+                        if(role == "user") {
+                            this.$router.push({
+                                name: "User Home"
+                            })
+                        }
+
+                        if(role == "cashier") {
+                            this.$router.push({
+                                name: "Cashier Home"
+                            })
+                        }
+
+                        if(role == "admin") {
+                            this.$router.push({
+                                name: "User"
+                            })
+                        }
                     }
+                    else this.error.text = "Mohon cek kembali password dan email anda"
                 })
                 .catch(() => {
                     this.error.text = "Mohon cek kembali password dan email anda"
                 })
             },
             validate() {
-                if(this.password.length < 1) {
+                if(validator.required(this.password)) {
                     this.error.text = "Password harus diisi"
                 }else {
                     this.error.text = ""
                 }
 
-                if(this.email.length < 1) {
+                if(validator.required(this.email)) {
                     this.error.text = "Email harus diisi"
                 }else {
                     this.error.text = ""
                 }
 
-                // this.login()
+                if(this.error.text == "") {
+                    this.login()
+                }
+            },
+            register() {
+                this.$router.push({
+                    name: "Register"
+                })
             }
         }
     }

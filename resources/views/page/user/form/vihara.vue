@@ -32,6 +32,7 @@
     import VueCookies from "vue-cookies";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 viharas: [],
@@ -45,29 +46,19 @@
         methods: {
             initData() {
                 let donationInfo = VueCookies.get('donationInfo')
-                let userInfo = VueCookies.get('userInfo')
                 let selectedVihara = VueCookies.get('selectedVihara')
 
-                if(donationInfo.nominal == null) {
+                if(donationInfo == null) {
                     this.back()
                     return false
                 }
 
-                if(userInfo.name == null) {
-                    this.$router.push({
-                        name: "Form"
-                    })
-
-                    return false
-                }
-
-                if(donationInfo != null) {
+                if(selectedVihara != null) {
                     this.selectedVihara = selectedVihara
-                    this.$forceUpdate()
                 }
             },
             getVihara() {
-                return request.get("/api/asuser/vihara")
+                return request.get("/api/asuser/vihara", this.accessToken)
                 .then((response) => {
                     this.viharas = response.data
 

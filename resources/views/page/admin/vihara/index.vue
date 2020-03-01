@@ -59,6 +59,7 @@
     import alert from "../../../../helper/alert";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 vihara: {
@@ -71,7 +72,7 @@
         },
         methods: {
             getVihara() {
-                request.get("/api/vihara")
+                request.get("/api/vihara", this.accessToken)
                 .then((response) => {
                     this.vihara = response.data
                 })
@@ -90,7 +91,7 @@
             deleteVihara(id) {
                 alert.loading()
 
-                request.get("/api/vihara/delete/"+id)
+                request.get("/api/vihara/delete/"+id, this.accessToken)
                 .then((response) => {
                     this.getVihara()
                     alert.success()

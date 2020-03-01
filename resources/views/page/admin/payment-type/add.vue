@@ -14,6 +14,17 @@
                 <div class="content-place">
                     <div class="form-custom-container">
                         <div class="form-custom-title">
+                            Cicilan
+                        </div>
+                        <div class="form-custom-input">
+                            <select v-model="form.is_installment">
+                                <option :value=true>Iya</option>
+                                <option :value=false>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-custom-container">
+                        <div class="form-custom-title">
                             Nama
                         </div>
                         <div class="form-custom-input">
@@ -36,17 +47,22 @@
     import validator from "../../../../helper/validator";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 error: {
                     class: {
-                        name: ""
+                        is_installment: "",
+                        name: "",
+
                     },
                     message: {
+                        is_installment: "",
                         name: ""
                     }
                 },
                 form: {
+                    is_installment: false,
                     name: ""
                 }
             }
@@ -75,7 +91,7 @@
                 if(this.validateName()) {
                     alert.loading()
 
-                    request.post("/api/payment-type/create", this.form)
+                    request.post("/api/payment-type/create", this.form, this.accessToken)
                     .then((response) => {
                         this.resetForm()
                         alert.success()

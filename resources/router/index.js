@@ -12,6 +12,21 @@ const router = new Router({
             component: () => import('../views/page/login/index.vue')
         },
         {
+            path: "/register",
+            name: "Register",
+            component: () => import('../views/page/register/index.vue')
+        },
+        {
+            path: "/register-verification",
+            name: "Register Verification",
+            component: () => import('../views/page/register/verification.vue')
+        },
+        {
+            path: "/",
+            name: "Home",
+            component: () => import('../views/page/home/index.vue')
+        },
+        {
             path: "/admin",
             component: () => import('../views/page/admin/layout/index.vue'),
             children: [
@@ -71,25 +86,58 @@ const router = new Router({
             ]
         },
         {
-            path: "/",
-            name: "Form",
-            component: () => import('../views/page/user/form/index.vue')
+            path: "/user",
+            component: () => import('../views/page/user/layout/index.vue'),
+            children: [
+                {
+                    path: "donation-form",
+                    name: "Donation Form",
+                    component: () => import('../views/page/user/form/donation.vue')
+                },
+                {
+                    path: "vihara-form",
+                    name: "Vihara Form",
+                    component: () => import('../views/page/user/form/vihara.vue')
+                },
+                {
+                    path: "verification-form",
+                    name: "Verification Form",
+                    component: () => import('../views/page/user/form/verification.vue')
+                },
+                {
+                    path: "how-to-use",
+                    name: "How To Use",
+                    component: () => import('../views/page/user/how-to-use/index.vue')
+                },
+                {
+                    path: "how-to-pay",
+                    name: "How To Pay",
+                    component: () => import('../views/page/user/how-to-pay/index.vue')
+                },
+                {
+                    path: "home",
+                    name: "User Home",
+                    component: () => import('../views/page/user/home/index.vue')
+                },
+                {
+                    path: "information",
+                    name: "Information Form",
+                    component: () => import('../views/page/user/form/information.vue')
+                }
+            ]
         },
         {
-            path: "/donation-form",
-            name: "Donation Form",
-            component: () => import('../views/page/user/form/donation.vue')
-        },
-        {
-            path: "/vihara-form",
-            name: "Vihara Form",
-            component: () => import('../views/page/user/form/vihara.vue')
-        },
-        {
-            path: "/verification-form",
-            name: "Verification Form",
-            component: () => import('../views/page/user/form/verification.vue')
-        },
+            path: "/cashier",
+            component: () => import('../views/page/cashier/layout/index.vue'),
+            children: [
+                {
+                    path: "home",
+                    name: "Cashier Home",
+                    component: () => import('../views/page/cashier/home/index.vue')
+                }
+            ]
+        }
+
     ]
 })
 

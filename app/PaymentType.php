@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentType extends Model
 {
     protected $fillable = [
-        'name'
+        'name', 'is_installment'
     ];
 }

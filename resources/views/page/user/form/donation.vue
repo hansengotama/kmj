@@ -1,5 +1,5 @@
 <template>
-    <div style="background: #eaeaea; height: 100%">
+    <div style="background: #eaeaea; height: 100%;">
         <div style="margin: 0 20px;">
             <div style="padding-top: 3em; position: relative">
                 <div class="table-title">
@@ -10,20 +10,29 @@
                     <div class="content-place">
                         <div class="form-custom-container">
                             <div class="form-custom-title">
+                                Nama Donatur <span class="red-text">*</span>
+                            </div>
+                            <div class="form-custom-input" style="text-align: right">
+                                <input type="text" placeholder="Nama Donatur" :class="error.class.donationName" v-model="form.donationName">
+                                <div class="error-text">{{ error.message.donationName }}</div>
+                            </div>
+                        </div>
+                        <div class="form-custom-container">
+                            <div class="form-custom-title">
                                 Nominal <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="text-align: right">
-                                <input type="number" placeholder="Nominal" :class="error.class.nominal" v-model="form.nominal" @input="inputNominal($event)" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                <input type="text" placeholder="Nominal" :class="error.class.nominal" v-model="form.nominal" @input="inputNominal($event)" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                                 <div class="error-text">{{ error.message.nominal }}</div>
                             </div>
                         </div>
                         <div class="form-custom-container">
                             <div class="form-custom-title">
-                                Cara Pembayaran <span class="red-text">*</span>
+                                Metode Pembayaran <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="text-align: right">
                                 <select v-model="form.paymentType" :class="error.class.paymentType">
-                                    <option :value="data.id" v-for="data in transactionTypes">{{ data.name}}</option>
+                                    <option :value="data" v-for="data in transactionTypes">{{ data.name}}</option>
                                 </select>
                                 <div class="error-text">{{ error.message.paymentType }}</div>
                             </div>
@@ -47,7 +56,6 @@
 
                         <div class="submit-container">
                             <button @click="next()">Lanjut</button>
-                            <button @click="back()" style="background: red">Balik</button>
                         </div>
                     </div>
                 </div>
@@ -63,19 +71,23 @@
     import VueCookies from "vue-cookies"
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 form: {
                     nominal: 0,
+                    donationName: "",
                     paymentType: "",
                     transferTo: "bebas"
                 },
                 error: {
                     class: {
+                        donationName: "",
                         nominal: "",
                         paymentType: ""
                     },
                     message: {
+                        donationName: "",
                         nominal: "",
                         paymentType: ""
                     }
@@ -91,22 +103,19 @@
         methods: {
             initData() {
                 let donationInfo = VueCookies.get('donationInfo')
-                let userInfo = VueCookies.get('userInfo')
-                if(userInfo.name == null) {
-                    this.back()
-                    return false
-                }
+
                 if(donationInfo != null) {
                     if(donationInfo.nominal != null) this.form.nominal = donationInfo.nominal
+                    if(donationInfo.donationName != null) this.form.donationName = donationInfo.donationName
                     if(donationInfo.paymentType != null) this.form.paymentType = donationInfo.paymentType
                     if(donationInfo.transferTo != null) this.form.transferTo = donationInfo.transferTo
                 }
             },
             getPaymentType() {
-                return request.get("/api/asuser/payment-type")
+                return request.get("/api/asuser/payment-type", this.accessToken)
                 .then((response) => {
                     this.transactionTypes = response.data
-                    this.form.paymentType = this.transactionTypes[0]['id']
+                    this.form.paymentType = this.transactionTypes[0]
                 })
             },
             validateNonimal() {
@@ -116,9 +125,27 @@
                     success = false
                     this.error.class.nominal = "error-input"
                     this.error.message.nominal = "Nominal harus diisi"
-                }else {
+                } else if(this.form.nominal <= 0) {
+                    success = false
+                    this.error.class.nominal = "error-input"
+                    this.error.message.nominal = "Nominal harus lebih dari 0"
+                } else{
                     this.error.class.nominal = ""
                     this.error.message.nominal = ""
+                }
+
+                return success
+            },
+            validateDonationName() {
+                let success = true
+
+                if(validator.required(this.form.donationName)) {
+                    success = false
+                    this.error.class.donationName = "error-input"
+                    this.error.message.donationName = "Nama Donatur harus diisi"
+                } else{
+                    this.error.class.donationName = ""
+                    this.error.message.donationName = ""
                 }
 
                 return success
@@ -140,16 +167,24 @@
             next() {
                 let validateSuccess = true
 
+                if (!this.validateDonationName()) validateSuccess = false
                 if (!this.validateNonimal()) validateSuccess = false
                 if (!this.validatePaymentType()) validateSuccess = false
 
-                console.log(validateSuccess)
                 if(validateSuccess) {
                     VueCookies.set('donationInfo', this.form)
+                    if(this.form.transferTo == "bebas") {
+                        let selectedVihara = VueCookies.get('selectedVihara')
+                        if(selectedVihara != null) VueCookies.remove('selectedVihara')
 
-                    this.$router.push({
-                        name: "Vihara Form"
-                    })
+                        this.$router.push({
+                            name: "Verification Form"
+                        })
+                    }else {
+                        this.$router.push({
+                            name: "Vihara Form"
+                        })
+                    }
                 }
             },
             inputNominal(event) {
@@ -159,20 +194,14 @@
                     price = 0
                 }
                 this.form.nominal = format.number(price)
-            },
-            back() {
-                this.$router.push({
-                    name: "Form"
-                })
             }
-
         }
     }
 </script>
 
 <style lang="stylus" scoped>
     .form-custom-container
-        align-items center
+        align-items start
         padding-bottom 12px
         padding-top 10px
 

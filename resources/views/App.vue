@@ -1,8 +1,29 @@
 <template>
     <div style="width: 100%; height: 100%;">
-        <router-view></router-view>
+        <router-view :accessToken="accessToken" @getAccessToken="getAccessToken()"></router-view>
     </div>
 </template>
+
+<script>
+    import request from "../helper/request";
+    import VueCookie from "vue-cookie";
+
+    export default {
+        data() {
+            return {
+                accessToken: null
+            }
+        },
+        mounted() {
+            this.getAccessToken();
+        },
+        methods: {
+            getAccessToken() {
+                this.accessToken = VueCookie.get('usertoken')
+            }
+        }
+    }
+</script>
 
 <style lang="stylus">
     .pointer
@@ -26,6 +47,7 @@
         box-shadow 0 1px 4px 0 rgba(0,0,0,.14)
         padding-top 80px
         padding-bottom 20px
+        margin-bottom 3em
 
     .content-place
         padding-left 1%
@@ -114,7 +136,7 @@
     .form-custom-container
         display flex
         align-items start
-        margin-bottom 10px
+        margin-bottom 18px
 
     .form-custom-title
         flex 1
@@ -157,5 +179,5 @@
         font-size 12px
 
     .error-input
-        border 1px solid red
+        border 1px solid red !important
 </style>

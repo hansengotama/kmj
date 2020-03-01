@@ -10,22 +10,22 @@
                         <span style="margin-left: 10px;">ADMIN</span>
                     </div>
                     <hr width="210px" align="left" style="margin-bottom: 20px; border: 0; border-top: 1px solid #eaeaea; height: 1px">
-                    <router-link to="user">
+                    <router-link to="user" v-if="user.role == 'admin'">
                         <div class="menu-text">
                             Pengguna
                         </div>
                     </router-link>
-                    <router-link to="transaction">
+                    <router-link to="transaction" v-if="user.role =='admin'">
                         <div class="menu-text">
                             Transaksi
                         </div>
                     </router-link>
-                    <router-link to="payment-type">
+                    <router-link to="payment-type" v-if="user.role =='admin'">
                         <div class="menu-text">
                             Tipe Pembayaran
                         </div>
                     </router-link>
-                    <router-link to="vihara">
+                    <router-link to="vihara" v-if="user.role =='admin'">
                         <div class="menu-text">
                             Vihara
                         </div>
@@ -39,16 +39,58 @@
             </div>
         </div>
         <div class="content">
-            <router-view></router-view>
+            <router-view :accessToken="accessToken"></router-view>
         </div>
     </div>
 </template>
 
 <script>
+    import request from "../../../../helper/request";
+
     export default {
+        props: ['accessToken'],
         data() {
             return {
+                user: {
+                    role: ""
+                }
+            }
+        },
+        created() {
+            this.getAccessToken()
+        },
+        mounted() {
+            this.getUser()
+        },
+        methods: {
+            getUser() {
+                if(this.accessToken == null) {
+                    this.$router.push({
+                        name: "Login"
+                    })
 
+                    return false
+                }
+
+                request.get("/api/check/user-from-access-token", this.accessToken)
+                .then((response) => {
+                    this.user = response.data
+
+                    if(this.user.role == "user") {
+                        this.$router.push({
+                            name: "User Home"
+                        })
+                    }
+
+                    if(this.user.role == "cashier") {
+                        this.$router.push({
+                            name: "Cashier Home"
+                        })
+                    }
+                })
+            },
+            getAccessToken() {
+                this.$emit('getAccessToken')
             }
         }
     }

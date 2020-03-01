@@ -14,6 +14,17 @@
                 <div class="content-place">
                     <div class="form-custom-container">
                         <div class="form-custom-title">
+                            Cicilan
+                        </div>
+                        <div class="form-custom-input">
+                            <select v-model="form.is_installment">
+                                <option :value=true>Iya</option>
+                                <option :value=false>Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-custom-container">
+                        <div class="form-custom-title">
                             Nama
                         </div>
                         <div class="form-custom-input">
@@ -36,17 +47,21 @@
     import request from "../../../../helper/request";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 error: {
                     class: {
+                        is_installment: "",
                         name: ""
                     },
                     message: {
+                        is_installment: "",
                         name: ""
                     }
                 },
                 form: {
+                    is_installment: "",
                     id: "",
                     name: ""
                 }
@@ -66,6 +81,8 @@
 
                 this.form.id = data.id
                 this.form.name = data.name
+                if(data.is_installment == 0) this.form.is_installment = false
+                else this.form.is_installment = true
             },
             back() {
                 this.$router.push({
@@ -90,7 +107,7 @@
                 if(this.validateName()) {
                     alert.loading()
 
-                    request.post("/api/payment-type/update", this.form)
+                    request.post("/api/payment-type/update", this.form, this.accessToken)
                     .then((response) => {
                         alert.success()
                         this.back()

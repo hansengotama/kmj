@@ -23,9 +23,11 @@ class CreateTransactionsTable extends Migration
             $table->foreign('payment_type_id')->references('id')->on('payment_types')->onDelete('cascade');
             $table->unsignedBigInteger('accepted_by_admin_id')->nullable();
             $table->foreign('accepted_by_admin_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('donors_name');
             $table->boolean('is_email_sent')->default(false);
             $table->boolean('is_payment_success')->default(false);
             $table->bigInteger('nominal');
+            $table->timestamps();
         });
     }
 

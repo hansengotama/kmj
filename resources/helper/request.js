@@ -5,11 +5,12 @@ export default {
         return this.url = window.location.origin
     },
 
-    get(url) {
+    get(url, accessToken) {
         return new Promise((resolve) => {
             axios.get(this.getBaseUrl() + url, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
                 }
             })
             .then((response) => {
@@ -21,11 +22,12 @@ export default {
         })
     },
 
-    post(url, data) {
+    post(url, data, accessToken) {
         return new Promise((resolve) => {
             let headers = {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken
                 }
             }
 

@@ -57,6 +57,7 @@
     import request from "../../../../helper/request";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 error: {
@@ -120,7 +121,7 @@
                 if(validateSuccess) {
                     alert.loading()
 
-                    request.post("/api/vihara/create", this.form)
+                    request.post("/api/vihara/create", this.form, this.accessToken)
                     .then((response) => {
                         this.resetForm()
                         alert.success()

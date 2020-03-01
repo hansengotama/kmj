@@ -8,6 +8,7 @@ use App\Transaction;
 use App\User;
 use App\Vihara;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -22,6 +23,11 @@ class UserController extends Controller
             'phone_number' => $request['phone_number'],
             'npwp' => $request['npwp']
         ]);
+    }
+
+    public function checkUserFomAccessToken()
+    {
+        return Auth::user();
     }
 
     public function userCheck(Request $request)
@@ -55,5 +61,21 @@ class UserController extends Controller
     public function getVihara()
     {
         return Vihara::get();
+    }
+
+    public function createTransaction(Request $request) {
+        return Transaction::create([
+            'user_id' => Auth::user()->id,
+            'vihara_id' => $request->vihara_id,
+            'payment_type_id' => $request->payment_type_id,
+            'donors_name' => $request->donors_name,
+            'nominal' => $request->nominal,
+        ]);
+    }
+
+    public function getTransaction() {
+        $user_id = Auth::user()->id;
+
+        return Transaction::where('user_id', $user_id)->with('vihara', 'user', 'paymentType')->get();
     }
 }

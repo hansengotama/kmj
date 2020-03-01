@@ -8,27 +8,27 @@
                 </div>
                 <div class="content-container">
                     <div class="content-place">
-                        <div style="margin-top: 20px">
-                            <div style="color: #3e95a9; text-transform: uppercase; margin-bottom: 18px">Data Donasi</div>
+                        <div>
+                            <div style="color: #3e95a9; text-transform: uppercase; margin-bottom: 18px">Data Diri</div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Nama Donatur : {{ donationInfo.donationName }}
+                                    Nama : {{ userInfo.name }}
                                 </div>
                             </div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Nominal : Rp. {{ donationInfo.nominal }}
+                                    Email : {{ userInfo.email }}
                                 </div>
                             </div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Cara Pembayaran : {{ donationInfo.paymentType.name }}
+                                    Nomor Hp : {{ userInfo.phone_number }}
                                 </div>
                             </div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Transfer Ke : <span v-if="selectedVihara == null">Bebas</span>
-                                    <span v-else>{{ selectedVihara.name }}</span>
+                                    NPWP : <span v-if="userInfo.npwp != null || userInfo.npwp != ''">{{ userInfo.npwp }}</span>
+                                    <span v-else>-</span>
                                 </div>
                             </div>
                         </div>
@@ -44,22 +44,19 @@
 </template>
 
 <script>
-    import request from "../../../../helper/request";
+    import request from "../../../helper/request";
     import VueCookies from "vue-cookies";
-    import format from "../../../../helper/format";
+    import alert from "../../../helper/alert";
 
     export default {
-        props: ['accessToken'],
         data() {
             return {
-                donationInfo: {
-                    nominal: "",
-                    paymentType: {
-                        name: ""
-                    },
-                    donationName: "",
+                userInfo: {
+                    name: "",
+                    email: "",
+                    phone_number: "",
+                    npwp: ""
                 },
-                selectedVihara: null
             }
         },
         mounted() {
@@ -67,48 +64,37 @@
         },
         methods: {
             initData() {
-                let donationInfo = VueCookies.get('donationInfo')
-                let selectedVihara = VueCookies.get('selectedVihara')
+                let userInfo = VueCookies.get('userInfo')
 
-                if(donationInfo == null) {
-                    this.back()
-
+                if(userInfo == null) {
+                    this.$router.push({
+                        name: "Home"
+                    })
                     return false
-                }else this.donationInfo = donationInfo
+                }else this.userInfo = userInfo
+            },
+            verification() {
+                if(window.confirm("Apakah anda yakin?")) {
+                    if(VueCookies.get('userInfo') != null) VueCookies.remove('userInfo')
 
-                if(selectedVihara != null) this.selectedVihara = selectedVihara
+                    request.post("/api/register", this.userInfo)
+                    .then((response) => {
+                        this.$router.push({
+                            name: "Login"
+                        })
+                    })
+                }
             },
             back() {
                 this.$router.push({
-                    name: "Donation Form"
+                    name: "Register"
                 })
-            },
-            async verification() {
-                if(window.confirm("Apakah anda yakin?")) {
-                    let data = {}
-                    data.vihara_id = (this.selectedVihara == null) ? null : this.selectedVihara.id
-                    data.payment_type_id = this.donationInfo.paymentType.id
-                    data.donors_name = this.donationInfo.donationName
-                    data.nominal = format.remove(this.donationInfo.nominal)
-
-                    await request.post("/api/asuser/create-transaction", data, this.accessToken)
-
-                    await VueCookies.remove('donationInfo')
-                    await VueCookies.remove('selectedVihara')
-
-                    this.$router.push({
-                        name: "Information Form"
-                    })
-                }
             }
         }
     }
 </script>
 
 <style lang="stylus" scoped>
-
-    .submit-container
-        margin-top 2em
 
     @media (max-width 800px)
         .table-title

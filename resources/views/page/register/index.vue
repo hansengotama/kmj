@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-custom-container">
                             <div class="form-custom-title">
-                                Nomor Telepon <span class="red-text">*</span>
+                                Nomor Hp <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="float: right; text-align: right;">
                                 <input type="text" placeholder="Nomor Telepon" :class="error.class.phone_number" v-model="form.phone_number">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="submit-container">
-                            <button @click="next()">Lanjut</button>
+                            <button @click="save()">simpan</button>
                         </div>
                     </div>
                 </div>
@@ -55,10 +55,11 @@
 
 <script>
     import VueCookies from 'vue-cookies'
-    import validator from "../../../../helper/validator";
-    import request from "../../../../helper/request";
+    import validator from "../../../helper/validator";
+    import request from "../../../helper/request";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 form: {
@@ -84,13 +85,18 @@
             }
         },
         mounted() {
+            if(this.accessToken != null) {
+                this.$router.push({
+                    name: "User Home"
+                })
+            }
             this.initData()
         },
         methods: {
             initData() {
                 let userInfo = VueCookies.get('userInfo')
 
-                if(userInfo.name != null) {
+                if(userInfo != null) {
                     if(userInfo.name != null) this.form.name = userInfo.name
                     if(userInfo.email != null) this.form.email = userInfo.email
                     if(userInfo.phone_number != null) this.form.phone_number = userInfo.phone_number
@@ -169,7 +175,7 @@
 
                 return success
             },
-            async next() {
+            async save() {
                 let validateSuccess = true
 
                 let validatePhoneNumber = await this.validatePhoneNumber()
@@ -182,7 +188,7 @@
                     VueCookies.set('userInfo', this.form)
 
                     this.$router.push({
-                        name: "Donation Form"
+                        name: "Register Verification"
                     })
                 }
             },
@@ -192,7 +198,7 @@
 
 <style lang="stylus" scoped>
     .form-custom-container
-        align-items center
+        align-items start
         padding-bottom 12px
         padding-top 10px
 

@@ -38,6 +38,7 @@
                                 <td>{{ data.name }}</td>
                                 <td>{{ data.email }}</td>
                                 <td>
+                                    <span v-if="data.role == 'admin'">Admin</span>
                                     <span v-if="data.role == 'cashier'">Kasir</span>
                                     <span v-if="data.role == 'user'">Donatur</span>
                                 </td>
@@ -63,6 +64,7 @@
     import alert from "../../../../helper/alert";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 user: {
@@ -78,9 +80,10 @@
         },
         methods: {
             getUser() {
-                request.get("/api/user?filter[name]=" + this.filter.text)
+                request.get("/api/user?filter[name]=" + this.filter.text, this.accessToken)
                 .then((response) => {
-                    this.user = response.data
+                    if(response)
+                        this.user = response.data
                 })
             },
             addUser() {
@@ -97,7 +100,7 @@
             deleteUser(id) {
                 alert.loading()
 
-                request.get("/api/user/delete/"+id)
+                request.get("/api/user/delete/"+id, this.accessToken)
                 .then((response) => {
                     this.getUser()
                     alert.success()

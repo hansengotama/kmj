@@ -24,6 +24,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>Cicilan</th>
                                 <th>Aksi</th>
                             </tr>
                             <tr v-if="transactionType.data.length <= 0">
@@ -32,6 +33,10 @@
                             <tr v-for="(transactionType, index) in transactionType.data" v-else>
                                 <td>{{ index+1 }}</td>
                                 <td>{{ transactionType.name }}</td>
+                                <td>
+                                    <i class="fa fa-check" style="color: green" v-if="transactionType.is_installment"></i>
+                                    <i class="fa fa-times" style="color: red" v-else></i>
+                                </td>
                                 <td>
                                     <span>
                                         <i class="fa fa-edit" @click="editTransactionType(transactionType)"></i>
@@ -52,6 +57,7 @@
     import alert from "../../../../helper/alert";
 
     export default {
+        props: ['accessToken'],
         data() {
             return {
                 transactionType: {
@@ -64,9 +70,10 @@
         },
         methods: {
             getTransactionType() {
-                request.get("/api/payment-type")
+                request.get("/api/payment-type", this.accessToken)
                 .then((response) => {
-                    this.transactionType = response.data
+                    if(response)
+                        this.transactionType = response.data
                 })
             },
             addTransactionType() {
@@ -83,7 +90,7 @@
             deleteTransactionType(id) {
                 alert.loading()
 
-                request.get("/api/payment-type/delete/"+id)
+                request.get("/api/payment-type/delete/"+id, this.accessToken)
                 .then((response) => {
                     this.getTransactionType()
                     alert.success()
