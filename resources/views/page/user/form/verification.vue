@@ -22,19 +22,19 @@
                             </div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Cara Pembayaran : {{ donationInfo.paymentType.name }}
+                                    Metode Pembayaran : {{ donationInfo.paymentType.name }}
                                 </div>
                             </div>
                             <div class="form-custom-container">
                                 <div class="form-custom-title">
-                                    Transfer Ke : <span v-if="selectedVihara == null">Bebas</span>
+                                    Donasi ke vihara : <span v-if="selectedVihara == null">Umum (Bebas)</span>
                                     <span v-else>{{ selectedVihara.name }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="submit-container">
                             <button @click="verification()">Verifikasi</button>
-                            <button style="background: red" @click="back()">Balik</button>
+                            <button style="background: red" @click="back()">Kembali</button>
                         </div>
                     </div>
                 </div>
@@ -92,12 +92,18 @@
                     data.nominal = format.remove(this.donationInfo.nominal)
 
                     await request.post("/api/asuser/create-transaction", data, this.accessToken)
+                    .then(async (response) => {
+                        await VueCookies.remove('donationInfo')
+                        await VueCookies.remove('selectedVihara')
 
-                    await VueCookies.remove('donationInfo')
-                    await VueCookies.remove('selectedVihara')
+                        console.log(response.id)
 
-                    this.$router.push({
-                        name: "Information Form"
+                        this.$router.push({
+                            name: "Information Form",
+                            params: {
+                                "transaction_id": response.id
+                            }
+                        })
                     })
                 }
             }

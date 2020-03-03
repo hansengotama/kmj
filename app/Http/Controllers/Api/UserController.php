@@ -78,4 +78,8 @@ class UserController extends Controller
 
         return Transaction::where('user_id', $user_id)->with('vihara', 'user', 'paymentType')->get();
     }
+
+    public function getTransactionDetail($transaction_id) {
+        return Transaction::where('id', $transaction_id)->with('vihara', 'paymentType', 'user')->first();
+    }
 }

@@ -4,7 +4,7 @@
             <div style="padding-top: 3em; position: relative">
                 <div class="table-title">
                     <div style="padding: 15px;">Data Diri</div>
-                    <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Email dan Nomor Telepon hanya dapat digunakan 1 kali</div>
+                    <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Email dan Nomor Handphone hanya dapat digunakan 1 kali</div>
                 </div>
                 <div class="content-container">
                     <div class="content-place">
@@ -13,7 +13,7 @@
                                 Nama <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="float: right; text-align: right;">
-                                <input type="text" placeholder="Nama" :class="error.class.name" v-model="form.name">
+                                <input type="text" placeholder="Nama Lengkap" :class="error.class.name" v-model="form.name">
                                 <div class="error-text">{{ error.message.name }}</div>
                             </div>
                         </div>
@@ -28,10 +28,10 @@
                         </div>
                         <div class="form-custom-container">
                             <div class="form-custom-title">
-                                Nomor Hp <span class="red-text">*</span>
+                                Nomor HP <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="float: right; text-align: right;">
-                                <input type="text" placeholder="Nomor Telepon" :class="error.class.phone_number" v-model="form.phone_number">
+                                <input type="text" placeholder="Nomor Handphone" :class="error.class.phone_number" v-model="form.phone_number">
                                 <div class="error-text">{{ error.message.phone_number }}</div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                 NPWP
                             </div>
                             <div class="form-custom-input" style="float: right; text-align: right;">
-                                <input type="text" placeholder="npwp" v-model="form.npwp">
+                                <input type="text" placeholder="npwp (jika diperlukan)" v-model="form.npwp">
                             </div>
                         </div>
                         <div class="submit-container">

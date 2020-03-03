@@ -48,8 +48,13 @@ const router = new Router({
 
                 {
                     path: "transaction",
-                    name: "Manage Transaction",
+                    name: "Transaction",
                     component: () => import('../views/page/admin/transaction/index.vue')
+                },
+                {
+                    path: "edit-transaction",
+                    name: "Edit Transaction",
+                    component: () => import('../views/page/admin/transaction/edit.vue')
                 },
 
                 {
@@ -134,7 +139,22 @@ const router = new Router({
                     path: "home",
                     name: "Cashier Home",
                     component: () => import('../views/page/cashier/home/index.vue')
-                }
+                },
+                {
+                    path: "user",
+                    name: "Cashier User",
+                    component: () => import('../views/page/cashier/user/index.vue')
+                },
+                {
+                    path: "transaction",
+                    name: "Cashier Transaction",
+                    component: () => import('../views/page/cashier/transaction/index.vue')
+                },
+                {
+                    path: "transaction-detail",
+                    name: "Cashier Transaction Detail",
+                    component: () => import('../views/page/cashier/transaction-detail/index.vue')
+                },
             ]
         }
 

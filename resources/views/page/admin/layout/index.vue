@@ -61,6 +61,8 @@
         },
         mounted() {
             this.getUser()
+            console.log("HIdupp")
+
         },
         methods: {
             getUser() {

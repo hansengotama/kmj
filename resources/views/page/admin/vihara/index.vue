@@ -42,7 +42,7 @@
                                 <td>
                                     <span>
                                         <i class="fa fa-edit" @click="editVihara(vihara)"></i>
-                                        <i class="fa fa-trash" @click="deleteVihara(vihara.id)"></i>
+                                        <i class="fa fa-trash" @click="deleteVihara(vihara)"></i>
                                     </span>
                                 </td>
                             </tr>
@@ -88,16 +88,21 @@
                     params: data
                 })
             },
-            deleteVihara(id) {
-                alert.loading()
-
-                request.get("/api/vihara/delete/"+id, this.accessToken)
+            deleteVihara(data) {
+                alert.confirmation('Apakah anda yakin menghapus ' + data.name, 'Hapus', 'Batal')
                 .then((response) => {
-                    this.getVihara()
-                    alert.success()
-                })
-                .catch((error) => {
-                    alert.error()
+                    if(response.value) {
+                        alert.loading()
+
+                        request.get("/api/vihara/delete/"+ data.id, this.accessToken)
+                        .then((response) => {
+                            this.getVihara()
+                            alert.success()
+                        })
+                        .catch((error) => {
+                            alert.error()
+                        })
+                    }
                 })
             },
         }

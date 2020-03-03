@@ -8,7 +8,6 @@
                 </div>
                 <div class="content-container">
                     <div class="content-place">
-                        Cara melakukan pembayaran:
                         <ol style="padding-left: 18px">
                             <li>
                                 Cash/Debit/Kredit/Cicilan

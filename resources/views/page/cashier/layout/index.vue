@@ -10,6 +10,9 @@
                         <router-link :to="{ name: 'Cashier Home' }" class="navbar-name">Beranda</router-link>
                     </div>
                     <div class="custom-navbar-menu">
+                        <router-link :to="{ name: 'Cashier User' }" class="navbar-name">User</router-link>
+                    </div>
+                    <div class="custom-navbar-menu">
                         <div class="navbar-logout" @click="logout()">Keluar</div>
                     </div>
                 </div>

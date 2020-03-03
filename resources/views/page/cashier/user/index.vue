@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div style=" margin: 0 4em; margin-top: 2em">
         <div style="color: #555; font-weight: lighter">
-            Kelola Pengguna
+            User
         </div>
-        <div style="padding-top: 3em; position: relative">
+        <div style="padding-top: 3em; position: relative;">
             <div class="table-title">
-                <div style="padding: 15px;">Data Pengguna</div>
-                <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Data pengguna dengan peran donatur dan cashier</div>
+                <div style="padding: 15px;">Data User</div>
+                <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Data para donatur</div>
             </div>
             <div class="content-container">
                 <div class="content-place">
@@ -14,9 +14,6 @@
                         <div class="search-bar">
                             <input type="text" placeholder="Cari berdasarkan nama.." v-model="filter.text" @keyup.enter="getUser()">
                             <i class="fa fa-search" @click="getUser()"></i>
-                        </div>
-                        <div class="add-button">
-                            <button @click="addUser">Tambah Pengguna</button>
                         </div>
                     </div>
                     <div class="table-container">
@@ -28,7 +25,7 @@
                                 <th>Peran</th>
                                 <th>Nomor Telepon</th>
                                 <th>NPWP</th>
-                                <th>Aksi</th>
+                                <th>Lihat Transaksi</th>
                             </tr>
                             <tr v-if="user.data.length <= 0">
                                 <td colspan="7" style="text-align: center">Data Kosong</td>
@@ -45,10 +42,7 @@
                                 <td>{{ data.phone_number }}</td>
                                 <td>{{ data.npwp }}</td>
                                 <td>
-                                    <span>
-                                        <i class="fa fa-edit" @click="editUser(data)"></i>
-                                        <i class="fa fa-trash" @click="deleteUser(data)"></i>
-                                    </span>
+                                    <i class="fa fa-info" @click="viewTransaction(data)"></i>
                                 </td>
                             </tr>
                         </table>
@@ -72,20 +66,22 @@
                     data: []
                 },
                 filter: {
-                    text: ""
+                    text: "",
+                    page: 1,
+                    per_page: 10
                 }
             }
         },
         mounted() {
-            this.getUser(1, 10)
+            this.getUser()
         },
         components: {
             Paginate: () => import('./../../../../components/paginate/index.vue')
         },
         methods: {
-            getUser(page, per_page) {
+            getUser() {
                 request.get(
-                    "/api/user?filter[name]=" + this.filter.text + "&filter[page]=" + page + "&filter[per_page]=" + per_page,
+                    "/api/ascashier/donors?filter[name]=" + this.filter.text + "&filter[page]=" + this.filter.page + "&filter[per_page]=" + this.filter.per_page,
                     this.accessToken
                 )
                 .then((response) => {
@@ -94,36 +90,19 @@
                 })
             },
             changePaginate(current) {
-                this.getUser(current.page, current.per_page)
-            },
-            addUser() {
-                this.$router.push({
-                    name: "Add User"
-                })
-            },
-            editUser(data) {
-                this.$router.push({
-                    name: "Edit User",
-                    params: data
-                })
-            },
-            deleteUser(data) {
-                alert.confirmation('Apakah anda yakin menghapus ' + data.name, 'Hapus', 'Batal')
-                .then((response) => {
-                    if(response.value) {
-                        alert.loading()
+                this.filter.page = current.page
+                this.filter.per_page = current.per_page
 
-                        request.get("/api/user/delete/"+ data.id, this.accessToken)
-                        .then((response) => {
-                            this.getUser()
-                            alert.success()
-                        })
-                        .catch((error) => {
-                            alert.error()
-                        })
+                this.getUser()
+            },
+            viewTransaction(data) {
+                this.$router.push({
+                    name: "Cashier Transaction",
+                    params: {
+                        user_id: data.id
                     }
                 })
-            },
+            }
         }
     }
 </script>

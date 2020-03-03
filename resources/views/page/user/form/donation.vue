@@ -4,7 +4,7 @@
             <div style="padding-top: 3em; position: relative">
                 <div class="table-title">
                     <div style="padding: 15px;">Data Donasi</div>
-                    <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Donasi tersebut harus blablabla</div>
+                    <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Silahkan melakukan donasi</div>
                 </div>
                 <div class="content-container">
                     <div class="content-place">
@@ -13,7 +13,7 @@
                                 Nama Donatur <span class="red-text">*</span>
                             </div>
                             <div class="form-custom-input" style="text-align: right">
-                                <input type="text" placeholder="Nama Donatur" :class="error.class.donationName" v-model="form.donationName">
+                                <input type="text" placeholder="Nama Lengkap" :class="error.class.donationName" v-model="form.donationName">
                                 <div class="error-text">{{ error.message.donationName }}</div>
                             </div>
                         </div>
@@ -39,12 +39,12 @@
                         </div>
 
                         <div>
-                            Donasi Ke
+                            Donasi ke Vihara
                             <div style="margin-top: 10px; margin-bottom: 25px">
                                 <div>
                                     <div style="margin-bottom: 10px">
                                         <input type="radio" v-model="form.transferTo" id="bebas" value="bebas">
-                                        <label for="bebas">Bebas (Akan dibagi ke blabla)</label>
+                                        <label for="bebas">Umum (Bebas)</label>
                                     </div>
                                     <div>
                                         <input type="radio" v-model="form.transferTo" id="vihara" value="vihara">

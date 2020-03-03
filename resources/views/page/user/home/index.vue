@@ -1,14 +1,17 @@
 <template>
     <div style="background: #eaeaea; height: 100%;">
         <div style="margin: 0 20px;">
-            <div style="padding-top: 3em; position: relative">
+            <div style="padding-top: 1.5em; position: relative">
                 <div class="table-title">
+                    <div class="test" @click="openForm()">
+                        <i class="fa fa-plus"></i>
+                    </div>
                     <div style="padding: 15px;">Data Donasi</div>
                     <div style="font-size: 12px; color: hsla(0,0%,100%,.62); padding: 0 15px 15px 15px">Donasi tersebut harus blablabla</div>
                 </div>
                 <div class="content-container">
                     <div class="content-place">
-                        <div v-if="transactions.length <= 0">
+                        <div v-if="transactions.length <= 0" style="color: #a3a0a7; text-align: center;">
                             Belum melakukan Donasi
                         </div>
                         <div class="donation-data-container" v-else>
@@ -66,7 +69,11 @@
                     this.transactions = response.data
                 })
             },
-
+            openForm() {
+                this.$router.push({
+                    name: "Donation Form"
+                })
+            }
         },
         filters: {
             filterNumber: function(value) {
@@ -94,6 +101,22 @@
         padding 10px
         text-transform uppercase
         color #4995a9
+
+    .table-title
+        position relative
+
+    .test
+        position absolute
+        right -13px
+        top -15px
+        padding 7px 10px
+        background white
+        color black
+        border-radius 50%
+        cursor pointer
+
+    .content-container
+        padding-top 55px
 
     @media (max-width 800px)
         .table-title

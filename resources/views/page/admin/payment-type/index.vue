@@ -11,10 +11,6 @@
             <div class="content-container">
                 <div class="content-place">
                     <div class="additional-container" style="float: right">
-<!--                        <div class="search-bar">-->
-<!--                            <input type="text" placeholder="Cari berdasarkan nama..">-->
-<!--                            <i class="fa fa-search"></i>-->
-<!--                        </div>-->
                         <div class="add-button">
                             <button @click="addTransactionType()">Tambah Tipe Transaksi</button>
                         </div>
@@ -28,7 +24,7 @@
                                 <th>Aksi</th>
                             </tr>
                             <tr v-if="transactionType.data.length <= 0">
-                                <td colspan="3" style="text-align: center">Data Kosong</td>
+                                <td colspan="4" style="text-align: center">Data Kosong</td>
                             </tr>
                             <tr v-for="(transactionType, index) in transactionType.data" v-else>
                                 <td>{{ index+1 }}</td>
@@ -40,7 +36,7 @@
                                 <td>
                                     <span>
                                         <i class="fa fa-edit" @click="editTransactionType(transactionType)"></i>
-                                        <i class="fa fa-trash" @click="deleteTransactionType(transactionType.id)"></i>
+                                        <i class="fa fa-trash" @click="deleteTransactionType(transactionType)"></i>
                                     </span>
                                 </td>
                             </tr>
@@ -87,16 +83,21 @@
                     params: data
                 })
             },
-            deleteTransactionType(id) {
-                alert.loading()
-
-                request.get("/api/payment-type/delete/"+id, this.accessToken)
+            deleteTransactionType(data) {
+                alert.confirmation('Apakah anda yakin menghapus ' + data.name, 'Hapus', 'Batal')
                 .then((response) => {
-                    this.getTransactionType()
-                    alert.success()
-                })
-                .catch((error) => {
-                    alert.error()
+                    if(response.value) {
+                        alert.loading()
+
+                        request.get("/api/payment-type/delete/"+ data.id, this.accessToken)
+                        .then((response) => {
+                            this.getTransactionType()
+                            alert.success()
+                        })
+                        .catch((error) => {
+                            alert.error()
+                        })
+                    }
                 })
             },
         }

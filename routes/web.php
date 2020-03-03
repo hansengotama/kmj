@@ -20,6 +20,7 @@ Route::get('/admin/add-user', 'VueController@view');
 Route::get('/admin/edit-user', 'VueController@view');
 
 Route::get('/admin/transaction', 'VueController@view');
+Route::get('/admin/edit-transaction', 'VueController@view');
 
 Route::get('/admin/vihara', 'VueController@view');
 Route::get('/admin/add-vihara', 'VueController@view');
@@ -32,9 +33,13 @@ Route::get('/admin/edit-payment-type', 'VueController@view');
 Route::get('/', 'VueController@view');
 Route::get('/user/home', 'VueController@view');
 Route::get('/user/donation-form', 'VueController@view');
+Route::get('/user/information', 'VueController@view');
 Route::get('/user/vihara-form', 'VueController@view');
 Route::get('/user/verification-form', 'VueController@view');
 Route::get('/user/how-to-use', 'VueController@view');
 Route::get('/user/how-to-pay', 'VueController@view');
 
 Route::get('/cashier/home', 'VueController@view');
+Route::get('/cashier/user', 'VueController@view');
+Route::get('/cashier/transaction', 'VueController@view');
+Route::get('/cashier/transaction-detail', 'VueController@view');

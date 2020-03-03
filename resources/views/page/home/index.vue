@@ -8,7 +8,6 @@
     export default {
         props: ['accessToken'],
         mounted() {
-            console.log(this.accessToken)
             if(this.accessToken == null) {
                 this.$router.push({
                     name: "Login"

@@ -126,12 +126,28 @@
         box-shadow 0 12px 20px -10px rgba(62,149,169,0.28), 0 4px 20px 0 rgba(0,0,0,0.12), 0 7px 8px -5px rgba(62,149,169,0.2)
         cursor pointer
 
+    .fa-print
+        padding 8px
+        background #3e95a9
+        color white
+        border-radius 3px
+        box-shadow 0 12px 20px -10px rgba(62,149,169,0.28), 0 4px 20px 0 rgba(0,0,0,0.12), 0 7px 8px -5px rgba(62,149,169,0.2)
+        cursor pointer
+
     .fa-arrow-left
         padding 8px
         border-radius 50%
         border 1px solid black
         cursor pointer
         margin-right 5px
+
+    .fa-info
+        padding 8px 10px
+        background #3e95a9
+        color white
+        border-radius 3px
+        box-shadow 0 12px 20px -10px rgba(62,149,169,0.28), 0 4px 20px 0 rgba(0,0,0,0.12), 0 7px 8px -5px rgba(62,149,169,0.2)
+        cursor pointer
 
     .form-custom-container
         display flex

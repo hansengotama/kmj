@@ -9,16 +9,23 @@
                 <div class="content-container">
                     <div class="content-place">
                         <div class="test">
-                            <div v-for="vihara in viharas" :class="(vihara.id == selectedVihara.id) ? 'active' : ''" @click="selectVihara(vihara)">
-                                <div style="padding: 10px">
-                                    <div>{{ vihara.name }}</div>
+                            <div v-for="vihara in viharas" :class="(vihara.id == selectedVihara.id) ? 'active' : ''" :style="(!vihara.is_active) ? 'border-color: red' : ''" @click="selectVihara(vihara)">
+                                <div style="display: flex; padding: 10px; justify-content: space-between; align-items: center">
+                                    <div >
+                                        <div>{{ vihara.name }}</div>
+                                        <div style="margin-top: 10px">Limit : {{ vihara.limit | filterNumber }}</div>
+                                        <div v-if="!vihara.is_active" style="color: red; font-size: 12px; margin-top: 10px">Donasi sudah terpenuhi</div>
+                                    </div>
+                                    <div v-if="vihara.id == selectedVihara.id">
+                                        <i class="fa fa-check"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="submit-container" style="margin-top: 1.5em">
                             <button @click="next()">Lanjut</button>
-                            <button @click="back()" style="background: red">Balik</button>
+                            <button @click="back()" style="background: red">Kembali</button>
                         </div>
                     </div>
                 </div>
@@ -30,6 +37,7 @@
 <script>
     import request from "../../../../helper/request";
     import VueCookies from "vue-cookies";
+    import format from "../../../../helper/format";
 
     export default {
         props: ['accessToken'],
@@ -42,6 +50,11 @@
         async mounted() {
             await this.getVihara()
             this.initData()
+        },
+        filters: {
+            filterNumber: function(value) {
+                return format.number(value)
+            }
         },
         methods: {
             initData() {
@@ -66,7 +79,7 @@
                 })
             },
             selectVihara(data) {
-                this.selectedVihara = data
+                if(data.is_active) this.selectedVihara = data
             },
             back() {
                 this.$router.push({

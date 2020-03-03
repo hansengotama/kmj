@@ -15,7 +15,7 @@ class AdminController extends Controller
 {
     public function getAllUser(Request $request)
     {
-        $page = $request['page'];
+        $page = $request['filter']['page'];
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -23,9 +23,9 @@ class AdminController extends Controller
 
         $user = User::query();
 
-        if($request['filter']['name'] != null) $user->where("name", 'LIKE', '%'.$request['filter']['name'].'%');
+        if ($request['filter']['name'] != null) $user->where("name", 'LIKE', '%' . $request['filter']['name'] . '%');
 
-        return $user->paginate($request['per_page']);
+        return $user->paginate($request['filter']['per_page']);
     }
 
     public function findUser($id)
@@ -55,23 +55,23 @@ class AdminController extends Controller
 
     public function userCheck(Request $request)
     {
-        if($request['email']) {
+        if ($request['email']) {
             $user = User::where("email", $request['email'])->first();
-            if($user == null) return 0;
+            if ($user == null) return 0;
             else {
-                if($request['id'] == $user->id) {
+                if ($request['id'] == $user->id) {
                     return 0;
-                }else return 1;
+                } else return 1;
             }
         }
 
-        if($request['phone_number']) {
+        if ($request['phone_number']) {
             $user = User::where("phone_number", $request['phone_number'])->first();
-            if($user == null) return 0;
+            if ($user == null) return 0;
             else {
-                if($request['id'] == $user->id) {
+                if ($request['id'] == $user->id) {
                     return 0;
-                }else return 1;
+                } else return 1;
             }
         }
 
@@ -185,13 +185,58 @@ class AdminController extends Controller
 
     public function getAllTransaction(Request $request)
     {
-        $page = $request['page'];
+        $page = $request['filter']['page'];
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
 
-        return Transaction::paginate($request['per_page']);
+        $transaction = Transaction::query();
+
+        if ($request['filter']['donors_name'] != null) $transaction->where("donors_name", 'LIKE', '%' . $request['filter']['donors_name'] . '%');
+
+        return $transaction->with('vihara', 'user', 'paymentType')->paginate($request['filter']['per_page']);
+    }
+
+    public function findTransaction($id)
+    {
+        return Transaction::where('id', $id)->first();
+    }
+
+    public function deleteTransaction($id)
+    {
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+
+        return 1;
+    }
+
+    public function updateTransaction(Request $request)
+    {
+        $transaction = Transaction::find($request['id']);
+
+        $transaction->update([
+            "user_id" => $transaction->user_id,
+            "accepted_by_admin_id" => $transaction->accepted_by_admin_id,
+            "is_email_sent" => $transaction->is_email_sent,
+            "is_payment_success" => $transaction->is_payment_success,
+            "vihara_id" => $request['vihara_id'],
+            "payment_type_id" => $request['payment_type_id'],
+            "nominal" => $request['nominal'],
+            "donors_name" => $request['donors_name']
+        ]);
+
+        return 1;
+    }
+
+    public function getVihara()
+    {
+        return Vihara::get();
+    }
+
+    public function getPaymentType()
+    {
+        return PaymentType::get();
     }
 
 }
